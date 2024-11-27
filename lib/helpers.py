@@ -191,10 +191,6 @@ def add_band(genre):
         print("The band is already exists in the list!")
         genre_menu()
     else:
-        # number_of_members = input("Number of member in the band: ")        
-        # while not int(number_of_members):
-        #     print("Number of members must be a number!")
-        #     number_of_members = input("Number of member in the band: ")
         while True:
             number_of_members = input("Number of member in the band: ") 
             try:
