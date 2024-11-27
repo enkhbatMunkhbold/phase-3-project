@@ -26,7 +26,7 @@ def genre_menu():
     for index in range(len(functions)):
         print(f"{functions[index][0]}: {functions[index][1]}")    
     print_line() 
-    choice = input("> ").upper() 
+    choice = input("> ").upper()
     if choice in selections:
         select_managing_methods(choice, functions, selections)
     else:
@@ -76,6 +76,7 @@ def delete_genre():
 #***************    Main menu update methods   *******************
 def update_genre():
     name_ = input("Enter genre name: ").title()
+    print(f"Entered genre name is {name_}.")
     if genre := Genre.find_by_name(name_):
         try:
             name = input("Enter the genre's new name: ").title()
@@ -177,11 +178,13 @@ def band_menu(group):
     
     starting_lines_for_submenu()
     print(f"            BAND: {group.name.upper()}\n\n") 
+    band_genre = Genre.find_by_id(group.genre_id)
+    print(f"Band genre: {band_genre.name}\n")
     print("Band Members:\n")
     member_names = json.loads(group.members)
     for index, member in enumerate(member_names):
         print(f"{index + 1}: {member}")
-
+    
     ending_lines_for_genre_methods()    
 
 def add_band(genre):
