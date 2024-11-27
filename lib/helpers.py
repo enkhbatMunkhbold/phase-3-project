@@ -15,10 +15,11 @@ def genre_menu():
     functions = [("C", "Create Genre", create_genre), ("U", "Update Genre's name", update_genre), ("D", "Delete", delete_genre), ("E", "Exit", exit_program)]
     selections = ["C", "U", "D", "E"]
     
-    #print Main Menu   
+    #print Main Menu      
     if (list_genres()):
         print_genre_list()
     else:
+        starting_lines_for_submenu() 
         print("There is no Genre created yet!")
     print("\n\n") 
     
@@ -190,7 +191,20 @@ def add_band(genre):
         print("The band is already exists in the list!")
         genre_menu()
     else:
-        number_of_members = input("Number of member in the band: ")
+        # number_of_members = input("Number of member in the band: ")        
+        # while not int(number_of_members):
+        #     print("Number of members must be a number!")
+        #     number_of_members = input("Number of member in the band: ")
+        while True:
+            number_of_members = input("Number of member in the band: ") 
+            try:
+                number_of_members = int(number_of_members)
+                if number_of_members > 0:
+                    break
+                else:
+                    print("Number of members must be a positive number!")
+            except ValueError:
+                print("Number of members must be a valid number!")
         members = []
         for index in range(int(number_of_members)):
             member = input(f"Enter name of member {index + 1}: ").title()
