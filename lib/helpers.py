@@ -26,11 +26,20 @@ def genre_menu():
     for index in range(len(functions)):
         print(f"{functions[index][0]}: {functions[index][1]}")    
     print_line() 
-    choice = input("> ").upper()
-    if choice in selections:
-        select_managing_methods(choice, functions, selections)
-    else:
-        select_genre_from_list(choice)
+    while True:
+        choice = input("> ").upper()
+        if choice in selections:
+            select_managing_methods(choice, functions, selections)
+        elif choice.isdigit():
+            select_genre_from_list(choice)
+        else:
+            print("Invalid choice!")
+        
+    # choice = input("> ").upper()
+    # if choice in selections:
+    #     select_managing_methods(choice, functions, selections)
+    # else:
+    #     select_genre_from_list(choice)
 
 #*****************  calling methods in Main menu  ****************
 def select_managing_methods(select, data_list1, data_list2 ):
