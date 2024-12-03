@@ -24,12 +24,15 @@ def genre_menu():
         print("There is no Genre created yet!")
     print("\n\n") 
     
+    print("Menu of functionalities")
     for key in functions:
         print(f"{key}: {functions[key][0]}")    
     print_line() 
-    while True:
-        choice = input("> ").upper()
+    choice = input("> ").upper()
+    while choice != "E":        
         if choice in functions.keys():
+            if(choice == "E"):
+                exit_program()
             functions[choice][1](list_of_genres)
         elif choice.isdigit():
             select_genre_from_list(choice, list_of_genres)
@@ -130,9 +133,6 @@ def ending_lines_for_genre_methods():
     print_line()
 
 def print_bands_list(genre):
-    # genre_bands = genre.bands()
-    # print(f"Genre {genre}: {genre_bands}")
-    # bands = Band.get_by_genre(genre.id)
     bands = genre.bands()
     for index, band in enumerate(bands):
         print(f"{index + 1}: {band.name}")
@@ -149,11 +149,14 @@ def print_selected_genre_menu(g, data):
     print(f"            GENRE: {g.name.upper()}     \n\n")
 
     if(bands_by_genre(g)):
+        print("Bands")
         print_bands_list(g)
         print("\n\n")
     else:
+        print("Bands")
         print(f"There is no {g.name.title()} band in this list, yet!\n\n")
 
+    print("Menu of functionalities")
     for index in range(len(data)):
         print(f"{data[index][0]}: {data[index][1]}")
     ending_lines_for_genre_methods() 
