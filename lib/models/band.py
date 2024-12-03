@@ -134,6 +134,6 @@ class Band:
   #       WHERE genre_id == ?
   #   """
     
-    # rows = CURSOR.execute(sql, (id,)).fetchall()
-    # return [cls.instance_from_db(row) for row in rows]
+  #   rows = CURSOR.execute(sql, (id,)).fetchall()
+  #   return [cls.instance_from_db(row) for row in rows]
  

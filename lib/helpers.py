@@ -7,32 +7,32 @@ from models.band import Band
 
 # def list_genres():
 #     return Genre.get_all()
-list_of_genres = Genre.get_all()
+
 def list_of_bands():
     return Band.get_all()
 
 def genre_menu():    
     
-    functions = [("C", "Create Genre", create_genre), ("U", "Update Genre's name", update_genre), ("D", "Delete", delete_genre), ("E", "Exit", exit_program)]
-    selections = ["C", "U", "D", "E"]
-    
+    # functions = [("C", "Create Genre", create_genre), ("U", "Update Genre's name", update_genre), ("D", "Delete", delete_genre), ("E", "Exit", exit_program)]
+    functions = {"C":("Create Genre", create_genre), "U":("Update Genre's name", update_genre), "D":("Delete", delete_genre), "E":("Exit", exit_program)}
+    list_of_genres = Genre.get_all()
     #print Main Menu      
     if (len(list_of_genres)):
-        print_genre_list()
+        print_genre_list(list_of_genres)
     else:
         starting_lines_for_submenu() 
         print("There is no Genre created yet!")
     print("\n\n") 
     
-    for index in range(len(functions)):
-        print(f"{functions[index][0]}: {functions[index][1]}")    
+    for key in functions:
+        print(f"{key}: {functions[key][0]}")    
     print_line() 
     while True:
         choice = input("> ").upper()
-        if choice in selections:
-            select_managing_methods(choice, functions, selections)
+        if choice in functions.keys():
+            functions[choice][1](list_of_genres)
         elif choice.isdigit():
-            select_genre_from_list(choice)
+            select_genre_from_list(choice, list_of_genres)
         else:
             print("Invalid choice!")
         
@@ -43,33 +43,33 @@ def genre_menu():
     #     select_genre_from_list(choice)
 
 #*****************  calling methods in Main menu  ****************
-def select_managing_methods(select, data_list1, data_list2 ):
-    while True:  
-        for index in range(len(data_list1) + 1):
-            if select == data_list1[index - 1][0]:
-                data_list1[index - 1][2]()
-                break
-        if select not in data_list2:
-            print("Invalid choice") 
+# def select_managing_methods(select, data ):
+#     while True:  
+#         for index in range(len(data_list1) + 1):
+#             if select == data_list1[index - 1][0]:
+#                 data_list1[index - 1][2]()
+#                 break
+#         if select not in data_list2:
+#             print("Invalid choice") 
 
 #*****************   Main menu create genre   *******************
-def create_genre():
+def create_genre(genres):
     name = input("Enter genre name: ").title()
-    if name in list_of_genres:
+    if name in genres:
         print(f"Genre {name} already exists!")
         return None
     else:
         try:
             genre = Genre.create(name)
-            list_of_genres.append(genre)
+            genres.append(genre)
             print(f"Genre {genre.name} successfully created!")
         except Exception as exc:
             print("Error creating genre: ", exc)
     genre_menu()
 
 #******************    Main Menu Genre list    *********************
-def select_genre_from_list(select): 
-    genre = list_of_genres[int(select) - 1] 
+def select_genre_from_list(select, genres): 
+    genre = genres[int(select) - 1] 
     chosen_genre_menu(genre)
     # for index, genre in enumerate(genres):
     #     if index + 1 == int(select):
@@ -77,9 +77,9 @@ def select_genre_from_list(select):
     #         break
 
 #***************    Main menu delete    ******************
-def delete_genre():
+def delete_genre(genres):
     genre_index = input("Enter the number: ")
-    genre = list_of_genres[int(genre_index) - 1]
+    genre = genres[int(genre_index) - 1]
     if genre:
         genre.delete()
         print(f"Genre {genre} deleted successfully.")
@@ -88,9 +88,9 @@ def delete_genre():
     genre_menu()
 
 #***************    Main menu update methods   *******************
-def update_genre():
+def update_genre(genres):
     genre_index = input("Enter the number of genre: ")
-    genre = list_of_genres[int(genre_index) - 1]
+    genre = genres[int(genre_index) - 1]
     old_name = genre.name
     # print(f"Entered genre name is {name_}.")
     if genre:
@@ -107,11 +107,11 @@ def update_genre():
     genre_menu()
 
 #************** Print Main Menu Genre List  ********************
-def print_genre_list():
+def print_genre_list(genres):
     # genres = list_genres()
     starting_lines_for_submenu()
     print("             GENRE LIST       \n")
-    for index, genre in enumerate(list_of_genres):
+    for index, genre in enumerate(genres):
         print(f"{index + 1}: {genre.name}")
 
 #*************** Main Menu Helper Methods ********************************
@@ -130,7 +130,10 @@ def ending_lines_for_genre_methods():
     print_line()
 
 def print_bands_list(genre):
-    bands = Band.get_by_genre(genre.id)
+    # genre_bands = genre.bands()
+    # print(f"Genre {genre}: {genre_bands}")
+    # bands = Band.get_by_genre(genre.id)
+    bands = genre.bands()
     for index, band in enumerate(bands):
         print(f"{index + 1}: {band.name}")
 
