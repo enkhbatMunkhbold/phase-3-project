@@ -1,6 +1,5 @@
 from models.__init__ import CONN, CURSOR
 from models.band import Band
-from models.album import Album
 
 class Genre:
   all = {}
@@ -10,8 +9,8 @@ class Genre:
     self.name = name
     type(self).all[self.id] = self
 
-  # def __repr__(self):
-  #   return f"{self.id}: {self.name}"
+  def __repr__(self):
+    return f"{self.id}: {self.name}"
 
   @property
   def name(self):
@@ -119,13 +118,6 @@ class Genre:
     CURSOR.execute(sql, (self.id,),)
 
     rows = CURSOR.fetchall()
-    return [Band.instance_from_db(row) for row in rows]
-  
-  def albums(self):
-    sql = """
-        SELECT * FROM albums
-        WHERE genre_id = ?
-    """
-    CURSOR.execute(sql, (self.id,),)
+    return [Band.instance_from_db(row) for row in rows]  
 
 # breakpoint()

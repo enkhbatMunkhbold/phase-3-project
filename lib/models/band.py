@@ -10,8 +10,8 @@ class Band:
     self.members = members
     type(self).all[self.id] = self
 
-  def __str__(self):
-    return (f"First parameter: {self.name}, second parameter: {self.genre_id}, third parameter: {self.members}")
+  # def __str__(self):
+  #   return (f"First parameter: {self.name}, second parameter: {self.genre_id}, third parameter: {self.members}")
 
   @property
   def name(self):
@@ -127,13 +127,13 @@ class Band:
     row = CURSOR.execute(sql, (name,)).fetchone()
     return cls.instance_from_db(row) if row else None
   
-  @classmethod
-  def get_by_genre(cls, id):
-    sql = """
-        SELECT * FROM bands
-        WHERE genre_id == ?
-    """
+  # @classmethod
+  # def get_by_genre(cls, id):
+  #   sql = """
+  #       SELECT * FROM bands
+  #       WHERE genre_id == ?
+  #   """
     
-    rows = CURSOR.execute(sql, (id,)).fetchall()
-    return [cls.instance_from_db(row) for row in rows]
+    # rows = CURSOR.execute(sql, (id,)).fetchall()
+    # return [cls.instance_from_db(row) for row in rows]
  
