@@ -7,8 +7,7 @@ class Genre:
   def __init__(self, name, id=None):
     self.id = id
     self.name = name
-    type(self).all[self.id] = self
-
+    
   def __repr__(self):
     return f"{self.id}: {self.name}"
 

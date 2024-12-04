@@ -8,8 +8,7 @@ class Band:
     self.name = name
     self.genre_id = genre_id
     self.members = members
-    type(self).all[self.id] = self
-
+    
   # def __str__(self):
   #   return (f"First parameter: {self.name}, second parameter: {self.genre_id}, third parameter: {self.members}")
 
