@@ -56,6 +56,9 @@ def delete_genre(genres):
     genre_index = input("Enter the genre number in list: ")
     genre = genres[int(genre_index) - 1]
     if genre:
+        bands = genre.bands()
+        for band in bands:
+            band.delete()
         genre.delete()
         print(f"Genre {genre} deleted successfully.")
     else:
@@ -135,7 +138,7 @@ def print_selected_genre_menu(g, data):
     print_line()
 
 def chosen_genre_menu(genre):
-    options = {"A":("Add Band", add_band), "U":("Update Band name", update_band), "D":("Delete", delete_band), "B": ("Go back to Main Menu", genre_menu), "E": ("Exit the program", exit_program)}
+    options = {"A":("Add Band", add_band), "D":("Delete", delete_band), "B": ("Go back to Main Menu", genre_menu), "E": ("Exit the program", exit_program)}
 
     print_selected_genre_menu(genre, options)
    
@@ -158,7 +161,7 @@ def chosen_genre_menu(genre):
 #////////////////////////////////////////    BAND MENU   /////////////////////////////////////////////
 
 def band_menu(genre, group):
-    options = {"B": (f"Go back to {genre.name}'s bands list.", chosen_genre_menu), "E": ("Exit the program", exit_program)}
+    options = {"U": ("Update Band", update_band), "B": (f"Go back to {genre.name}'s bands list.", chosen_genre_menu), "E": ("Exit the program", exit_program)}
     starting_lines_for_submenu()
     print(f"            BAND: {group.name.upper()}\n\n") 
    
@@ -175,10 +178,10 @@ def band_menu(genre, group):
 
     select = input("> ").upper()
     if select in options.keys():
-        if select == "B":
-            options[select][1](genre)
-        else:
+        if select == "E":
             options[select][1]()
+        else:
+            options[select][1](genre)
     else:
         print("Invalid choice")
     
@@ -214,7 +217,21 @@ def add_band(genre):
     band_menu(genre, band)
 
 def update_band(genre):
-    print(f"Updating Band in genre {genre.name}...")
+    index = input("Enter the number in list: ")
+    band = genre.bands()[int(index) - 1]
+    old_name = band.name
+
+    if band:
+        try:
+            new_name = input("Enter the name: ").title()
+            band.name = new_name
+            band.update()
+            print(f"Band {old_name} successfully updated to {band.name}!")
+        except Exception as exc:
+            print("Error updating band: ", exc)
+    else:
+        print("Band not found!")
+    chosen_genre_menu()
 
 def delete_band(g):
     index = input("Enter the number in list: ")
