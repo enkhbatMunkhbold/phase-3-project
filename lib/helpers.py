@@ -102,7 +102,7 @@ def starting_lines_for_submenu():
     print("      ROCK STARS OF THE WORLDS       \n\n")   
 
 def ending_lines_for_methods():
-    print("\nSelect Methods for further steps")
+    print("\nSelect Method for further steps")
     print_line()
 
 def print_bands_list(genre):
@@ -134,7 +134,7 @@ def print_selected_genre_menu(g, data):
         print(f"{key}: {data[key][0]}")
     
     print("\nSelect a band for more details")    
-    print("Select Methods for further steps")
+    print("Select Method for further steps")
     print_line()
 
 def chosen_genre_menu(genre):
@@ -160,8 +160,7 @@ def chosen_genre_menu(genre):
 
 #////////////////////////////////////////    BAND MENU   /////////////////////////////////////////////
 
-def band_menu(genre, group):
-    options = {"U": ("Update Band", update_band), "B": (f"Go back to {genre.name}'s bands list.", chosen_genre_menu), "E": ("Exit the program", exit_program)}
+def print_band(genre, group):
     starting_lines_for_submenu()
     print(f"            BAND: {group.name.upper()}\n\n") 
    
@@ -170,6 +169,10 @@ def band_menu(genre, group):
     member_names = json.loads(group.members)
     for index, member in enumerate(member_names):
         print(f"{index + 1}: {member}") 
+
+def band_menu(genre, group):
+    options = {"U": ("Update Band", update_band), "B": (f"Go back to {genre.name}'s bands list.", chosen_genre_menu), "E": ("Exit the program", exit_program)}
+    print_band(genre, group)
 
     print("\nMethods")
     for key in options:
@@ -180,6 +183,8 @@ def band_menu(genre, group):
     if select in options.keys():
         if select == "E":
             options[select][1]()
+        elif select == "U":
+            options[select][1](genre, group)
         else:
             options[select][1](genre)
     else:
@@ -216,22 +221,61 @@ def add_band(genre):
             ending_lines_for_methods()
     band_menu(genre, band)
 
-def update_band(genre):
-    index = input("Enter the number in list: ")
-    band = genre.bands()[int(index) - 1]
-    old_name = band.name
+def update_band(genre, band):
+    update_methods = {"N": ("Update band name", update_name), "M": ("Update band members", update_members)}
+    # index = input("Enter the number in list: ")
+    # band = genre.bands()[int(index) - 1]    
 
     if band:
-        try:
-            new_name = input("Enter the name: ").title()
-            band.name = new_name
-            band.update()
-            print(f"Band {old_name} successfully updated to {band.name}!")
-        except Exception as exc:
-            print("Error updating band: ", exc)
+        print_band(genre, band)
+        print("\nSelect what you want to update!\n")
+        for key in update_methods:
+            print(f"{key}: {update_methods[key][0]}")
+        print_line()
+        choice = input("> ").upper()
+        if update_methods[choice]:
+            update_methods[choice][1](genre, band)
+        else:
+            print("Invalid choice!")        
     else:
         print("Band not found!")
-    chosen_genre_menu()
+    chosen_genre_menu(genre)
+
+def update_name(genre, band):
+    old_name = band.name
+    try:
+        new_name = input("Enter the name: ").title()
+        band.name = new_name
+        band.update()
+        print(f"Band {old_name} successfully updated to {band.name}!")
+        band_menu(genre, band)
+    except Exception as exc:
+        print("Error updating band's name: ", exc)   
+     
+
+def update_members(genre, band):
+    member_names = json.loads(band.members)
+    for index, member in enumerate(member_names):
+        print(f"{index + 1}: {member}")   
+    
+    try:        
+        choice = ''
+        while choice != "n":
+            choice = input("Do you wanna change member [y/n]? ").lower()
+            if choice == "y":
+                print("\nSelect member in list")
+                select = input("> ").title()
+                name = input("Enter member new name: ").title()
+                member_names[int(select) - 1] = name
+                # print(member_names)
+                # band.members[int(select) - 1] = name
+                band.member = json.dumps(member_names)
+                band.update()
+            else:
+                print("Invalid input!")
+        band_menu(genre, band)
+    except Exception as exc:
+        print("Error updating band members: ", exc)
 
 def delete_band(g):
     index = input("Enter the number in list: ")
