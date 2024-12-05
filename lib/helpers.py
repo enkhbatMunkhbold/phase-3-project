@@ -24,7 +24,7 @@ def genre_menu():
     print("Methods")
     for key in functions:
         print(f"{key}: {functions[key][0]}")    
-    print_line() 
+    ending_lines_for_methods() 
     choice = input("> ").upper()
     while choice != "E":        
         if choice in functions.keys():
@@ -67,21 +67,24 @@ def delete_genre(genres):
 
 #***************    Main menu update methods   *******************
 def update_genre(genres):
-    genre_index = input("Enter the number of genre: ")
-    genre = genres[int(genre_index) - 1]
-    old_name = genre.name
+    if len(genres):
+        genre_index = input("Enter the number of genre: ")
+        genre = genres[int(genre_index) - 1]
+        old_name = genre.name
 
-    if genre:
-        try:
-            name = input("Enter the genre's new name: ").title()
-            genre.name = name
+        if genre:
+            try:
+                name = input("Enter the genre's new name: ").title()
+                genre.name = name
 
-            genre.update()
-            print(f"Genre {old_name} successfully updated to {genre.name}!")
-        except Exception as exc:
-            print("Error updating genre: ", exc)
+                genre.update()
+                print(f"Genre {old_name} successfully updated to {genre.name}!")
+            except Exception as exc:
+                print("Error updating genre: ", exc)
+        else:
+            print("Genre not found!")
     else:
-        print("Genre not found!")
+        print("There is no genre created yet!")
     genre_menu()
 
 #************** Print Main Menu Genre List  ********************
