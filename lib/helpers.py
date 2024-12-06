@@ -226,8 +226,6 @@ def add_band(genre):
 
 def update_band(genre, band):
     update_methods = {"N": ("Update band name", update_name), "M": ("Update band members", update_members)}
-    # index = input("Enter the number in list: ")
-    # band = genre.bands()[int(index) - 1]    
 
     if band:
         print_band(genre, band)
@@ -235,7 +233,8 @@ def update_band(genre, band):
         for key in update_methods:
             print(f"{key}: {update_methods[key][0]}")
         print_line()
-        choice = input("> ").upper()
+
+        choice = input("> ").upper()       
         if update_methods[choice]:
             update_methods[choice][1](genre, band)
         else:
@@ -247,7 +246,7 @@ def update_band(genre, band):
 def update_name(genre, band):
     old_name = band.name
     try:
-        new_name = input("Enter the name: ").title()
+        new_name = input("\nEnter the name: ").title()
         band.name = new_name
         band.update()
         print(f"Band {old_name} successfully updated to {band.name}!")
@@ -258,21 +257,20 @@ def update_name(genre, band):
 
 def update_members(genre, band):
     member_names = json.loads(band.members)
+    print("\nBand members:\n")
     for index, member in enumerate(member_names):
         print(f"{index + 1}: {member}")   
     
     try:        
         choice = ''
         while choice != "n":
-            choice = input("Do you wanna change member [y/n]? ").lower()
+            choice = input("\nDo you wanna change member [y/n] ? ").lower()
             if choice == "y":
                 print("\nSelect member in list")
-                select = input("> ").title()
-                name = input("Enter member new name: ").title()
-                member_names[int(select) - 1] = name
-                # print(member_names)
-                # band.members[int(select) - 1] = name
-                band.member = json.dumps(member_names)
+                select = int(input("> ")) - 1
+                name = input("Enter new member name: ").title()
+                member_names[select] = name
+                band.members = json.dumps(member_names)
                 band.update()
             else:
                 print("Invalid input!")
