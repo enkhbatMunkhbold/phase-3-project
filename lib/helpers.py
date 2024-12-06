@@ -105,7 +105,9 @@ def starting_lines_for_submenu():
     print("      ROCK STARS OF THE WORLDS       \n\n")   
 
 def ending_lines_for_methods():
-    print("\nSelect Method for further steps")
+    print("\nSelect from List above for more details")
+    print("Or select from Methods for further steps")
+    
     print_line()
 
 def print_bands_list(genre):
@@ -136,9 +138,7 @@ def print_selected_genre_menu(g, data):
     for key in data:
         print(f"{key}: {data[key][0]}")
     
-    print("\nSelect a band for more details")    
-    print("Select Method for further steps")
-    print_line()
+    ending_lines_for_methods()
 
 def chosen_genre_menu(genre):
     options = {"A":("Add Band", add_band), "D":("Delete", delete_band), "B": ("Go back to Main Menu", genre_menu), "E": ("Exit the program", exit_program)}
@@ -201,7 +201,7 @@ def add_band(genre):
         genre_menu()
     else:
         while True:
-            number_of_members = input("Number of member in the band: ") 
+            number_of_members = input("Number of members in the band: ") 
             try:
                 number_of_members = int(number_of_members)
                 if number_of_members > 0:
@@ -233,12 +233,14 @@ def update_band(genre, band):
         for key in update_methods:
             print(f"{key}: {update_methods[key][0]}")
         print_line()
-
-        choice = input("> ").upper()       
-        if update_methods[choice]:
-            update_methods[choice][1](genre, band)
-        else:
-            print("Invalid choice!")        
+        try:
+            choice = input("> ").upper()       
+            if update_methods[choice]:
+                update_methods[choice][1](genre, band)
+            else:
+                print("Invalid choice!") 
+        except Exception as exc:
+            print("Wrong selection!")       
     else:
         print("Band not found!")
     chosen_genre_menu(genre)
@@ -273,7 +275,7 @@ def update_members(genre, band):
                 band.members = json.dumps(member_names)
                 band.update()
             else:
-                print("Invalid input!")
+                print("\nFinish updating members!")
         band_menu(genre, band)
     except Exception as exc:
         print("Error updating band members: ", exc)
