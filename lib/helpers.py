@@ -102,7 +102,7 @@ def print_line():
 def starting_lines_for_submenu():
     print_line() 
     print("Welcome to the World's Top Music Store")
-    print("      ROCK STARS OF THE WORLDS       \n\n")   
+    print("      ROCK STARS OF THE WORLD       \n\n")   
 
 def ending_lines_for_methods():
     print("\nSelect from List above for more details")
