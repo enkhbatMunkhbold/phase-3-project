@@ -39,3 +39,7 @@ If user chooses a genre in the list of genres, it will show the chosen genre's m
 ## Band Menu  
 
 When a user selects a band in the **bands** list, then app opens up data for that chosen *band*. User can see band's genre and a list of members. **Band Menu** has *Methods* menu as well and user can update the band. When user chooses *update*, it suggests 2 more options, if you want to update *band's name* or *members*. If user wants to change a particular member's name, it can choose a member in a *members* list and change the name.
+
+## Demo
+Here is **GIF** of working with the program on terminal, to demonstrate how **"Rock Stars of the World" Music Store** app works.
+![GIFMaker_me](https://github.com/user-attachments/assets/430610db-3de9-4e00-987a-34c6cc4289b4)
