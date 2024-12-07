@@ -42,4 +42,5 @@ When a user selects a band in the **bands** list, then app opens up data for tha
 
 ## Demo
 Here is **GIF** of working with the program on terminal, to demonstrate how **"Rock Stars of the World" Music Store** app works.
-![GIFMaker_me](https://github.com/user-attachments/assets/430610db-3de9-4e00-987a-34c6cc4289b4)
+![GIFMaker_me](https://github.com/user-attachments/assets/554b9cb0-7550-4c94-b87e-fc65ee6eb169)
+
