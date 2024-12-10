@@ -26,15 +26,23 @@ def genre_menu():
         print(f"{key}: {functions[key][0]}")    
     ending_lines_for_methods() 
     choice = input("> ").upper()
-    while choice != "E":        
-        if choice in functions.keys():
-            functions[choice][1](list_of_genres)
-        elif choice.isdigit():
-            genre = list_of_genres[int(choice) - 1] 
-            chosen_genre_menu(genre)
+    while choice != "E":  
+        if len(list_of_genres) == 0 and choice.isdigit():
+            print("There is no Genre yet! Please Create Genre!") 
+            genre_menu()
         else:
-            print("Invalid choice!")
-    exit_program()
+            try:                      
+                if choice in functions.keys():
+                    functions[choice][1](list_of_genres)
+                elif choice.isdigit():
+                    genre = list_of_genres[int(choice) - 1] 
+                    chosen_genre_menu(genre)
+                else:
+                    print("Invalid choice!")
+                    genre_menu()
+            except KeyError:
+                print("Error: Invalid function key!")
+    exit_program()    
 
 #*****************   Main menu create genre   *******************
 def create_genre(genres):
